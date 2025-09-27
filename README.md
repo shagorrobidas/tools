@@ -2,7 +2,7 @@
 
 Shotter is a web application built with Django that provides a dashboard of useful, everyday tools. This project aims to be a simple, self-hosted suite of utilities.
 
-![Dashboard Screenshot](https://via.placeholder.com/700x350.png?text=App+Screenshot+Here)
+
 
 ## ✨ Features
 
