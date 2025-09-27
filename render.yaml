@@ -16,8 +16,8 @@ services:
     # in the Render dashboard for this service.
     envVars:
       - key: SECRET_KEY
-        generateValue: true # Automatically generates a secure secret key
+        generateValue: true
       - key: PYTHON_VERSION
-        value: 3.11.9 # Specify a full major.minor.patch version
+        value: 3.11.9 # This is the correct format!
       - key: WEB_CONCURRENCY
-        value: 4 # Number of Gunicorn workers
+        value: 4
