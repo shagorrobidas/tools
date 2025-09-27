@@ -1,0 +1,6 @@
+POST http://127.0.0.1:8000/api/shorten/
+Content-Type: application/json
+
+{
+    "original_url": "https://www.zillow.com/"
+}
