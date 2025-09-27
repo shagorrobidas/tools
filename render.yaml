@@ -9,6 +9,7 @@ services:
     region: oregon # Optional: choose a region closer to your users
     buildCommand: |
       pip install -r requirements.txt
+      python manage.py collectstatic --no-input
       python manage.py migrate
     startCommand: "gunicorn urlshortener.wsgi:application"
     # NOTE: You must manually add your DATABASE_URL environment variable
@@ -17,6 +18,6 @@ services:
       - key: SECRET_KEY
         generateValue: true # Automatically generates a secure secret key
       - key: PYTHON_VERSION
-        value: 3.11 # Specify a Python version
+        value: 3.11.9 # Specify a full major.minor.patch version
       - key: WEB_CONCURRENCY
         value: 4 # Number of Gunicorn workers
