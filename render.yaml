@@ -1,0 +1,47 @@
+# render.yaml
+# Blueprint for deploying the Shotter Django application on Render.
+
+databases:
+  - name: shotter_db
+    databaseName: shotter
+    user: shotter_user
+    plan: free # Or a paid plan for production use
+
+services:
+  - type: web
+    name: shotter-web
+    env: python
+    plan: free # Or a paid plan for production use
+    region: oregon # Optional: choose a region closer to your users
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py migrate
+    startCommand: "gunicorn urlshortener.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shotter_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true # Automatically generates a secure secret key
+      - key: PYTHON_VERSION
+        value: 3.11 # Specify a Python version
+      - key: WEB_CONCURRENCY
+        value: 4 # Number of Gunicorn workers
+
+  - type: cron
+    name: cleanup-old-files
+    schedule: "0 2 * * *" # Runs daily at 2:00 AM UTC
+    command: "python manage.py delete_old_images"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: shotter_db
+          property: connectionString
+      - key: SECRET_KEY
+        fromService:
+          type: web
+          name: shotter-web
+          envVarKey: SECRET_KEY
+      - key: PYTHON_VERSION
+        value: 3.11
